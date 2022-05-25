@@ -7,7 +7,7 @@ package agenciadeviajes;
 
 import java.util.Scanner;
 
-public class boleto {
+public class Boleto {
     //Atributos
     private int numeroDeBoleto;
     private String nombreDeCliente;
@@ -16,13 +16,8 @@ public class boleto {
     private String fecha;
     private float precio;
     
-    private double impuesto;
-    private double descuento;
-    private double subTotal;
-    private double total;
-    
     //Constructores
-    public boleto() { //Constructor vacío.
+    public Boleto() { //Constructor vacío.
         this.numeroDeBoleto = 0;
         this.nombreDeCliente = "";
         this.destino = "";
@@ -31,7 +26,7 @@ public class boleto {
         this.precio = 0.0f;
     }
     
-    public boleto(int numeroDeBoleto, String nombreDeCliente, String destino,  //Constructor de parametros
+    public Boleto(int numeroDeBoleto, String nombreDeCliente, String destino,  //Constructor de parametros
         int tipoDeViaje, String fecha, float precio) {
         this.numeroDeBoleto = numeroDeBoleto;
         this.nombreDeCliente = nombreDeCliente;
@@ -41,7 +36,7 @@ public class boleto {
         this.precio = precio;
     }
     
-    public boleto (boleto tickets) { //Constructor de copia
+    public Boleto (Boleto tickets) { //Constructor de copia
         this.numeroDeBoleto = tickets.numeroDeBoleto;
         this.nombreDeCliente = tickets.nombreDeCliente;
         this.destino = tickets.destino;
@@ -151,24 +146,33 @@ public class boleto {
         precio = b.nextFloat(); b.nextLine();
     }
     
-    public void calcularSubTotal() {
+    public double calcularSubTotal() {
+        double subTotal = 0;
         if(this.tipoDeViaje==1) subTotal = this.precio;
         if(this.tipoDeViaje==2) subTotal = this.precio*1.8f;
+        return subTotal;
     }
     
-    public void sacarDescuento(int edad) {
+    public double sacarDescuento(int edad) {
+        double descuento = 0;
         if (edad >= 60) {
-            descuento = (subTotal) /2;
+            descuento = (calcularSubTotal()) /2;
         }
+        return descuento;
     }
     
-    public void sacarImpuesto() {
+    public double sacarImpuesto() {
+        double impuesto = 0;
+        double subTotal = calcularSubTotal();
         impuesto = subTotal *.16;
         subTotal = subTotal + impuesto;
+        return impuesto;
     }
     
-    public void sacarTotal() {
-        total = subTotal - descuento;
+    public double sacarTotal() {
+        double total = 0;
+        total = calcularSubTotal() - sacarDescuento(80);
+        return total;
     }
     
     public void imprimirBoleto() {
@@ -178,9 +182,11 @@ public class boleto {
         System.out.println("Destino " +destino);
         System.out.println("Tipo de Viaje " +tipoDeViaje);
         System.out.println("Fecha " +fecha);
-        System.out.println("El subtotal es de: " +(subTotal-impuesto));
-        System.out.println("Impuesto "+impuesto);
-        System.out.println("El descuento es igual a: " +descuento);
-        System.out.println("Total a pagar " +total);
+        System.out.println("El subtotal es de: " +(calcularSubTotal()-sacarImpuesto()));
+        System.out.println("Impuesto "+sacarImpuesto());
+        System.out.println("El descuento es igual a: " +sacarDescuento(80));
+        System.out.println("Total a pagar " +sacarTotal());
     }
+    
+    
 }

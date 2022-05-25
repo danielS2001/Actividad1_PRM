@@ -10,7 +10,7 @@ public class AgenciaDeViajes {
 
     public static void main(String[] args) {
         Scanner b = new Scanner(System.in);
-        boleto boletos = new boleto(); //Instanciar un objeto usando la clase.
+        Boleto boletos = new Boleto(); //Instanciar un objeto usando la clase.
         boletos.capturarDatos();
         System.out.print("Capture la edad: ");
         int edad = b.nextInt(); b.nextLine();
